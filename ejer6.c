@@ -8,7 +8,7 @@
 int main(void)
 {
 	int n = 4;
-	int vector[4]={5,6,1,2};
+	int vector[4]={23,43,32,5};
 	int matrix[4][4] = {{1, 0, 0, 0},
 						{0, 1, 0, 0},
 						{0, 0, 1, 0},
@@ -48,10 +48,10 @@ int main(void)
 			MPI_Recv(&acum, 1, MPI_INT, domain,k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			vector[k]=acum;
 		}
-		printf("%d\n", vector[0]+vector[2]);
-		printf("%d\n", vector[1]+vector[3]);
-		printf("%d\n", vector[4]+vector[6]);
-		printf("%d\n", vector[5]+vector[7]);
+		for (int i = 0; i < size; i+=2)
+		{
+			printf("%d- %d = %d \n", vector[i],vector[i+1],vector[i]+vector[i+1]);
+		}
 	}
 	MPI_Finalize();
 	return 0;

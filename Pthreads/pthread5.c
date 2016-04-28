@@ -15,10 +15,9 @@ void *main_thread()
 {
     int i = 0, rValue, t;
         //unlock mutex
-        rValue = pthread_mutex_unlock(&mutex);
 
         //do stuff
-        for(t = 1; t <= 5; t++){
+        for(t = 1; t <= 4; t++){
             printf("creando tarea %d\n", t);
             rValue = pthread_cond_signal(&wake_up);
         }
@@ -26,7 +25,6 @@ void *main_thread()
         //signal condition of thread b
 
         //lock mutex
-        rValue = pthread_mutex_lock(&mutex);
 
         //wait for turn
 

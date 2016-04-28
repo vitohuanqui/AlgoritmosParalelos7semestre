@@ -56,6 +56,8 @@ int main(int argc, char* argv[])
     for(;i<n;i++)
     {   
         int r = rand()%65536;
+        printf("insert\n");
+            pthread_cond_signal(&write);
         if(!insert(r,&head))
         {
             i--;
@@ -154,9 +156,9 @@ void* thread_oparation(void* rank)
  * Global in/out:   
  * Return val: Return 1 if value exist otherwise 0
  */
-int member( int value, struct  list_node_s* head_p )
+int member(int value, struct  list_node_s* head_p )
 {
-    if (pthread_cond_wait(&write, &mutex) != 0 ){
+    if (pthread_cond_wait(&write, &mutex) == 0 ){
         return -1;
     }
     struct list_node_s* curr_p = head_p;
@@ -187,9 +189,7 @@ int member( int value, struct  list_node_s* head_p )
 int insert(int value, struct list_node_s** head_pp)
 {
 
-    if (pthread_cond_wait(&read, &mutex) != 0 ){
-        return -1;
-    }
+    while (pthread_cond_wait(&write, &mutex) != 0 );
 
     pthread_mutex_lock(&mutex);
 
@@ -289,7 +289,7 @@ void Get_args(int argc, char* argv[]) {
     
     n = (int) strtol(argv[2], (char **)NULL, 10);
     m = (int) strtol(argv[3], (char **)NULL, 10);
-     
+    printf("HO,LA\n"); 
     mMember = (float) atof(argv[4]);
     mInsert = (float) atof(argv[5]);
     mDelete = (float) atof(argv[6]);
